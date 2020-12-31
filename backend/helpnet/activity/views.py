@@ -1,18 +1,18 @@
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Activity
 from .serializers import ActivitySerializer
 
 
-@api_view(['GET', 'POST'])
-def activity_list(request):
+class ActivityList(APIView):
 
-    if request.method == 'GET':
+    def get(self, request):
         activities = Activity.objects.all()
         serializer = ActivitySerializer(activities, many=True)
         return Response(serializer.data)
-    elif request.method == 'POST':
+
+    def post(self, request):
         serializer = ActivitySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -20,28 +20,28 @@ def activity_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def activity_detail(request, id):
-    try:
-        activity = Activity.objects.get(pk=id)
+class ActivityDetails(APIView):
 
-    except Activity.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    def get_object(self, id):
+        try:
+            return Activity.objects.get(pk=id)
+        except Activity.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-    if request.method == 'GET':
+    def get(self, request, id):
+        activity = self.get_object(id)
         serializer = ActivitySerializer(activity)
         return Response(serializer.data)
 
-    elif request.method == 'PUT':
+    def put(self, request, id):
+        activity = self.get_object(id)
         serializer = ActivitySerializer(activity, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'DELETE':
+    def delete(self, request, id):
+        activity = self.get_object(id)
         activity.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-    else:
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
