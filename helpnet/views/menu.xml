@@ -19,6 +19,10 @@
      <menuitem name="Organizations" id="menu_organizations" parent="menu_actions"
               action="action_helpnet_organization" sequence="30"/>
 
+     <menuitem name="Needs" id="menu_needs" parent="menu_settings"
+              action="action_helpnet_need" sequence="20"/>
+     <menuitem name="Needs UoM" id="menu_needs_uom" parent="menu_settings"
+              action="action_helpnet_need_uom" sequence="30"/>
 
 
 

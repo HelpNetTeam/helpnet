@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_helpnet_need_form">
+        <field name="name">helpnet.need.form</field>
+        <field name="model">helpnet.need</field>
+        <field name="arch" type="xml">
+            <form>
+            <group>
+                <field name="name"/>
+                <field name="description"/>
+            </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_helpnet_need_tree">
+        <field name="name">helpnet.need.tree</field>
+        <field name="model">helpnet.need</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_helpnet_need">
+        <field name="name">Need</field>
+        <field name="res_model">helpnet.need</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="view_helpnet_need_uom_form">
+        <field name="name">helpnet.need.uom.form</field>
+        <field name="model">helpnet.need.uom</field>
+        <field name="arch" type="xml">
+            <form>
+            <group>
+                <field name="name"/>
+                <field name="description"/>
+            </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_helpnet_need_uom_tree">
+        <field name="name">helpnet.need.uom.tree</field>
+        <field name="model">helpnet.need.uom</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_helpnet_need_uom">
+        <field name="name">Need UoM</field>
+        <field name="res_model">helpnet.need.uom</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
