@@ -29,6 +29,8 @@
         'views/organization_views.xml',
         'views/activity_views.xml',
         'views/need_views.xml',
+        'views/category_views.xml',
+        'views/tag_views.xml',
         'views/menu.xml',
     ],
     # only loaded in demonstration mode

@@ -23,6 +23,10 @@
               action="action_helpnet_need" sequence="20"/>
      <menuitem name="Needs UoM" id="menu_needs_uom" parent="menu_settings"
               action="action_helpnet_need_uom" sequence="30"/>
+     <menuitem name="Categories" id="menu_categories" parent="menu_settings"
+              action="action_helpnet_category" sequence="40"/>
+     <menuitem name="Tags" id="menu_Tags" parent="menu_settings"
+              action="action_helpnet_tag" sequence="50"/>
 
 
 
