@@ -13,8 +13,12 @@
     <menuitem name="Activities" id="menu_activities" parent="menu_actions"
               action="action_helpnet_activity" sequence="10"/>
     
-    <menuitem name="Organizations" id="menu_organizations" parent="menu_actions"
-              action="action_helpnet_organization" sequence="20"/>
+     <menuitem name="Projects" id="menu_projects" parent="menu_actions"
+              action="action_helpnet_project" sequence="20"/>
+    
+     <menuitem name="Organizations" id="menu_organizations" parent="menu_actions"
+              action="action_helpnet_organization" sequence="30"/>
+
 
 
 
