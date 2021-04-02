@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="social_network_post_view_tree" model="ir.ui.view">
+        <field name="name">social_network.post.view.tree</field>
+        <field name="model">social_network.post</field>
+        <field name="arch" type="xml">
+            <tree string="Post Lists">
+                <field name="name" />
+                <field name="user_id" />
+                <field name="date" />
+                <field name="body" />
+                <field name="like_count" />
+                <field name="share_count" />
+                <field name="active" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="social_network_post_view_form" model="ir.ui.view">
+        <field name="name">social_network.post.view.form</field>
+        <field name="model">social_network.post</field>
+        <field name="arch" type="xml">
+            <form string="Post Form">
+                <sheet>
+                    <group col="4">
+                        <group col="4" colspan="4">
+                            <field name="name" />
+                            <field name="user_id" />
+                            <field name="date" />
+                            <field name="share_count" />
+                        </group>
+                        <separator string="Body"  colspan="4"/>
+                        <field name="body" colspan="4" nolabel="1"/>
+                        <notebook colspan="4">
+                            <page name="comments" string="Comments">
+                                <group>
+                                    <field name="comment_ids" nolabel="1"/>
+                                </group>
+                            </page>
+                            <page name="likes" string="Likes">
+                                <group col="4">
+                                    <group>
+                                        <field name="like_count" />
+                                    </group>
+                                    <field name="like_ids" nolabel="1" colspan="4"/>
+                                </group>
+                            </page>
+                            <page name="images" string="Images">
+                                <group>
+                                    <field name="image_ids" nolabel="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                        <field name="active" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="social_network_post_action" model="ir.actions.act_window">
+        <field name="name">Posts</field>
+        <field name="res_model">social_network.post</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem
+        id="social_network_root_menu"
+        name="Social Network"
+        sequence="10"/>
+
+    <menuitem
+        id="social_network_post_menu"
+        name="Posts"
+        action="social_network_post_action"
+        parent="social_network_root_menu"
+        sequence="10"/>
+</odoo>

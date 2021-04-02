@@ -6,17 +6,19 @@ class SocialNetworkPost(models.Model):
 
     name = fields.Char()
     user_id = fields.Many2one('res.users')
-    date = fields.Datetime
+    date = fields.Datetime()
     body = fields.Html()
     like_ids = fields.One2many('social_network.like', 'post_id')
     like_count = fields.Integer(compute='_like_count')
     comment_ids = fields.One2many('social_network.post.comment', 'post_id')
     share_count = fields.Integer()
     image_ids = fields.Many2many('ir.attachment')
+    active = fields.Boolean(default=True)
+
 
     def _like_count(self):
         for rec in self:
-            rec.likes_count = len(rec.like_ids)
+            rec.like_count = len(rec.like_ids)
     
     def _add_share(self):
         """Increase by one the Share Count when an user shares a post"""
@@ -35,11 +37,13 @@ class SocialNetworkPostComment(models.Model):
     post_id = fields.Many2one('social_network.post')
     like_ids = fields.One2many('social_network.like', 'comment_id')
     like_count = fields.Integer(compute='_like_count')
-    # comment_ids = fields.Many2many('social_network.post.comment', help='Replies') TODO
+    parent_id = fields.Many2one('social_network.post.comment', string='Related Comment', index=True)
+    child_ids = fields.One2many('social_network.post.comment', 'parent_id', string='Comment', domain=[('active', '=', True)])
+    active = fields.Boolean(default=True)
 
     def _like_count(self):
         for rec in self:
-            rec.likes_count = len(rec.like_ids)
+            rec.like_count = len(rec.like_ids)
 
 class SocialNetworkLike(models.Model):
     _name = 'social_network.like'
@@ -47,5 +51,5 @@ class SocialNetworkLike(models.Model):
 
     user_id = fields.Many2one('res.users')
     post_id = fields.Many2one('social_network.post')
-    comment_id = fields.Many2one('social_network.comment')
+    comment_id = fields.Many2one('social_network.post.comment')
     date = fields.Datetime()
