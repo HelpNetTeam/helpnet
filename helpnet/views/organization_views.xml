@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_helpnet_organization_form">
+        <field name="name">helpnet.organization.form</field>
+        <field name="model">helpnet.organization</field>
+        <field name="arch" type="xml">
+            <form>
+            <group>
+                <field name="name"/>
+                <field name="responsible_id"/>
+                <field name="website" widget="url"/>
+            </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_helpnet_organization_tree">
+        <field name="name">helpnet.organization.tree</field>
+        <field name="model">helpnet.organization</field>
+        <field name="arch" type="xml">
+            <tree>
+            <field name="name"/>
+            <field name="responsible_id"/>
+            <field name="website" widget="url"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_helpnet_organization">
+        <field name="name">Organization</field>
+        <field name="res_model">helpnet.organization</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

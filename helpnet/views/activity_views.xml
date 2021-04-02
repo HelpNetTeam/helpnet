@@ -65,17 +65,5 @@
       </field>
     </record>
 -->
-
-    <!-- Top menu item -->
-
-    <menuitem name="HelpNet" id="helpnet.menu_root"/>
-
-    <!-- menu categories -->
-
-    <menuitem name="Actions" id="menu_actions" parent="helpnet.menu_root" sequence="10"/>
-    <menuitem name="Settings" id="menu_settings" parent="helpnet.menu_root" sequence="90"/>
-
-    <menuitem name="Activities" id="menu_activities" parent="menu_actions"
-              action="action_helpnet_activity" sequence="10"/>
   </data>
 </odoo>

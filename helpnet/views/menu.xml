@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <!-- Top menu item -->
+
+    <menuitem name="HelpNet" id="helpnet.menu_root"/>
+
+    <!-- menu categories -->
+
+    <menuitem name="Actions" id="menu_actions" parent="helpnet.menu_root" sequence="10"/>
+    <menuitem name="Settings" id="menu_settings" parent="helpnet.menu_root" sequence="90"/>
+
+    <menuitem name="Activities" id="menu_activities" parent="menu_actions"
+              action="action_helpnet_activity" sequence="10"/>
+    
+    <menuitem name="Organizations" id="menu_organizations" parent="menu_actions"
+              action="action_helpnet_organization" sequence="20"/>
+
+
+
+
+</odoo>
