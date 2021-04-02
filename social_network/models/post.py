@@ -5,7 +5,7 @@ class SocialNetworkPost(models.Model):
     _name = 'social_network.post'
 
     name = fields.Char()
-    user_id = fields.Many2one('res.users')
+    user_id = fields.Many2one('res.users', default=lambda self: self.env.user)
     date = fields.Datetime()
     body = fields.Html()
     like_ids = fields.One2many('social_network.like', 'post_id')
@@ -33,7 +33,7 @@ class SocialNetworkPostComment(models.Model):
 
     body = fields.Html()
     date = fields.Datetime()
-    user_id = fields.Many2one('res.users')
+    user_id = fields.Many2one('res.users', default=lambda self: self.env.user)
     post_id = fields.Many2one('social_network.post')
     like_ids = fields.One2many('social_network.like', 'comment_id')
     like_count = fields.Integer(compute='_like_count')
@@ -49,7 +49,7 @@ class SocialNetworkLike(models.Model):
     _name = 'social_network.like'
     _rec_name = 'date'
 
-    user_id = fields.Many2one('res.users')
+    user_id = fields.Many2one('res.users', default=lambda self: self.env.user)
     post_id = fields.Many2one('social_network.post')
     comment_id = fields.Many2one('social_network.post.comment')
     date = fields.Datetime()
