@@ -7,23 +7,33 @@
       <field name="model">helpnet.activity</field>
       <field name="arch" type="xml">
         <form>
-          <group>
+          <header>
+          </header>
+          <sheet>
             <group>
-              <field name="name"/>
-              <field name="organization_id"/>
-              <field name="project_id"/>
-              <field name="date"/>
-              <field name="latitude"/>
-              <field name="longitude"/>
-              <field name="category_id"/>
-              <field name="tag_ids" widget="many2many_tags"/>
+              <group>
+                <field name="name"/>
+                <field name="organization_id"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="latitude"/>
+                <field name="longitude"/>
+                <field name="category_id"/>
+                <field name="tag_ids" widget="many2many_tags"/>
+              </group>
+              <notebook colspan="4">
+                <page name="needs" string="Needs">
+                  <field name="need_ids" />
+                </page>
+                <page name="comments" string="Comments">
+                  <field name="comment_ids"/>
+                </page>
+                <page name="ratings" string="Ratings">
+                  <field name="rating_ids"/>
+                </page>
+              </notebook>
             </group>
-            <group>
-              <field name="need_ids" />
-              <field name="comment_ids"/>
-              <field name="rating_ids"/>
-            </group>
-          </group>
+          </sheet>
         </form>
       </field>
     </record>
