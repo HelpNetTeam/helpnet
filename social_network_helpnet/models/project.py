@@ -1,9 +1,9 @@
 from odoo import models
 
 
-class HelpnetProject(models.Model):
-    _name = 'helpnet.project'
+class HelpnetOrganization(models.Model):
+    _name = 'helpnet.organization'
     _inherit = [
         'social_network.subscribe.mixin',
-        'helpnet.project',
+        'helpnet.organization',
         ]

@@ -26,6 +26,7 @@
     'data': [
         'views/activity_views.xml',
         'views/project_views.xml',
+        'views/organization_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
