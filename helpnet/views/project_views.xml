@@ -6,12 +6,16 @@
         <field name="model">helpnet.project</field>
         <field name="arch" type="xml">
             <form>
+            <header>
+            </header>
             <group>
                 <field name="name"/>
                 <field name="organization_id"/>
                 <field name="responsible_id"/>
                 <field name="website" widget="url"/>
             </group>
+            <notebook>
+            </notebook>
             </form>
         </field>
     </record>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="inherit_helpnet_project" model="ir.ui.view">
+    <field name="name">helpnet.project.view.form.inherit</field>
+    <field name="model">helpnet.project</field>
+    <field name="inherit_id" ref="helpnet.view_helpnet_project_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//header" position="inside">
+            <button string="Subscribe" name="action_toggle_subscribe_user" type="object" class="oe_highlight" attrs="{'invisible': [('user_subscribed', '=', True)]}"/>          
+            <button string="Unsubscribe" name="action_toggle_subscribe_user" type="object" class="oe_highlight" attrs="{'invisible': [('user_subscribed', '!=', True)]}"/>          
+        </xpath>
+        <xpath expr="//notebook" position="inside">
+            <page name="subscribers" string="Subscribers">
+                <field name="user_subscribed" invisible="1" />
+                <field name="subscriber_ids" />
+            </page>
+        </xpath>
+    </field>
+</record>
+</odoo>

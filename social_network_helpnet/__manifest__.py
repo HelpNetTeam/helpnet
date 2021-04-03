@@ -25,6 +25,7 @@
     # always loaded
     'data': [
         'views/activity_views.xml',
+        'views/project_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
