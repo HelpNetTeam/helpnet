@@ -1,27 +1,9 @@
-from odoo import api, fields, models
+from odoo import models
 
 
 class HelpnetActivity(models.Model):
-    _inherit = 'helpnet.activity'
-
-    subscriber_ids = fields.Many2many('res.partner')
-    user_subscribed = fields.Boolean(compute='_compute_user_subscribed')
-
-    def action_toggle_subscribe_user(self):
-        """Susbcribe the logged user to the activity
-        to receive further notifications"""
-        partner_id = self.env.user.partner_id.id
-        for rec in self:
-            if partner_id not in rec.subscriber_ids.ids:
-                rec.write({'subscriber_ids': [(4, partner_id)]})
-            else:
-                rec.write({'subscriber_ids': [(3, partner_id)]})
-    
-    @api.depends('subscriber_ids')
-    def _compute_user_subscribed(self):
-        partner_id = self.env.user.partner_id.id
-        for rec in self:
-            if partner_id in rec.subscriber_ids.ids:
-                rec.user_subscribed = True
-            else:
-                rec.user_subscribed = False
+    _name = 'helpnet.activity'
+    _inherit = [
+        'social_network.subscribe.mixin',
+        'helpnet.activity',
+        ]
