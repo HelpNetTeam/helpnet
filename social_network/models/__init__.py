@@ -2,3 +2,4 @@
 
 from . import post
 from . import subscribe_mixin
+from . import res_partner
