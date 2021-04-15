@@ -12,10 +12,13 @@ python manage.py makemigrations
 # apply changes in the db
 python manage.py migrate
 
+#Run the Tests
+python manage.py test
+
 # create your root/admin user
 python manage.py createsuperuser
 
-# Run the server and access via browser to http://127.0.0.1:8000
+# Run the server and access via browser to http://127.0.0.1:8000/admin
 python manage.py runserver
 ```
 
