@@ -27,3 +27,4 @@ class socialNetworkSubscribeMixin(models.AbstractModel):
                 rec.user_subscribed = True
             else:
                 rec.user_subscribed = False
+        return True
