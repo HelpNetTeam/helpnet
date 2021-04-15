@@ -1,9 +1,28 @@
 # HelpNet
 
-This is the Social Network for the people that Helps!
+## How to run this application
+```bash
+python -m venv venv # Create a virual environment
+source venv/bin/activate # set the virtual environment
+pip install -r requirements.txt # Install all the requirements
+
+# Check if there any change in models, If so, prepare a script to apply those changes in the db
+python manage.py makemigrations
+
+# apply changes in the db
+python manage.py migrate
+
+# create your root/admin user
+python manage.py createsuperuser
+
+# Run the server and access via browser to http://127.0.0.1:8000
+python manage.py runserver
+```
 
 # About the Project (Spanish Version)
 _English version coming soon_
+
+This is the Social Network for people who love Helps!
 
 ## Red Social de la Gente que ayuda
 
