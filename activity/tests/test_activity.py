@@ -34,3 +34,15 @@ class ActivityTestCase(TestCase):
             reverse('activity_detail', kwargs={'id': 30})
             )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_activity_api_creation(self):
+        data = {
+            'name': 'Activity3',
+            'latitude': 0.3, 
+            'longitude': 0.3
+        }
+        response = client.post(
+            path=reverse('activity_list'),
+            data=data
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)

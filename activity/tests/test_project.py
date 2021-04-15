@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from django.test import TestCase, Client
 from django.urls import reverse
 from rest_framework import status
@@ -35,3 +36,14 @@ class ProjectTestCase(TestCase):
             reverse('project_detail', kwargs={'id': 30})
             )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_project_api_creation(self):
+        data = {
+            'name': 'Project3',
+            'website': 'http://test3.com'
+        }
+        response = client.post(
+            path=reverse('project_list'),
+            data=data
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
