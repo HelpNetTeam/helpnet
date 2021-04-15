@@ -1,6 +1,10 @@
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.urls import reverse
+from rest_framework import status
 from activity.models.project import Project
+from activity.serializers import ProjectSerializer
 
+client = Client()
 
 class ProjectTestCase(TestCase):
     def setUp(self):
@@ -15,3 +19,19 @@ class ProjectTestCase(TestCase):
         self.assertEqual(project1.website, 'test1.com')
         self.assertEqual(project2.name, 'Project2')
         self.assertEqual(project2.website, 'test2.com')
+
+    def test_get_valid_single_project(self):
+        project1 = Project.objects.get(name="Project1")
+        response = client.get(
+            reverse('project_detail', kwargs={'id': project1.pk})
+            )
+        project = Project.objects.get(pk=project1.pk)
+        serializer = ProjectSerializer(project)
+        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_invalid_single_project(self):
+        response = client.get(
+            reverse('project_detail', kwargs={'id': 30})
+            )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

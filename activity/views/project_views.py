@@ -1,49 +1,49 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models.activity import Activity
-from .serializers import ActivitySerializer
+from activity.models.project import Project
+from activity.serializers import ProjectSerializer
 
 
-class ActivityList(APIView):
+class ProjectList(APIView):
 
     def get(self, request):
-        activities = Activity.objects.all()
-        serializer = ActivitySerializer(activities, many=True)
+        projects = Project.objects.all()
+        serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = ActivitySerializer(data=request.data)
+        serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ActivityDetails(APIView):
+class ProjectDetails(APIView):
 
     def get_object(self, id):
-        return Activity.objects.get(pk=id)
-       
+        return Project.objects.get(pk=id)
 
     def get(self, request, id):
         try: 
-            activity = self.get_object(id)
-        except Activity.DoesNotExist:
-            return Response({"activity": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+            project = self.get_object(id)
+        except Project.DoesNotExist:
+            return Response({"project": "Not found."},
+                            status=status.HTTP_404_NOT_FOUND)
 
-        serializer = ActivitySerializer(activity)
+        serializer = ProjectSerializer(project)
         return Response(serializer.data)
 
     def put(self, request, id):
-        activity = self.get_object(id)
-        serializer = ActivitySerializer(activity, data=request.data)
+        project = self.get_object(id)
+        serializer = ProjectSerializer(project, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id):
-        activity = self.get_object(id)
-        activity.delete()
+        project = self.get_object(id)
+        project.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
