@@ -18,8 +18,8 @@ class Activity(models.Model):
     # comment_ids = models.One2many('helpnet.activity.comment', 'activity_id')
     # rating_ids = models.One2many('helpnet.activity.rating', 'activity_id')
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name + ''
 
     class Meta:
         verbose_name_plural = "activities"

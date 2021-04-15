@@ -123,3 +123,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 TAGGIT_CASE_INSENSITIVE = True
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
