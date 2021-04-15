@@ -9,7 +9,7 @@ class Activity(models.Model):
     name = models.CharField(max_length=100)
     # organization_id = models.Many2one('helpnet.organization')
     # project_id = models.Many2one('helpnet.project')
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     # category_id = models.Many2one('helpnet.category', 'Category')
