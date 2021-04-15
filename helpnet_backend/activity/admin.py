@@ -1,5 +1,13 @@
 from django.contrib import admin
-from .models import Activity
+from .models.activity import (
+    Activity,
+    ActivityComment,
+    ActivityNeed,
+    ActivityRating,
+    )
 
 
 admin.site.register(Activity)
+admin.site.register(ActivityComment)
+admin.site.register(ActivityNeed)
+admin.site.register(ActivityRating)
