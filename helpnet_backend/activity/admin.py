@@ -5,9 +5,11 @@ from .models.activity import (
     ActivityNeed,
     ActivityRating,
     )
+from .models.project import Project
 
 
 admin.site.register(Activity)
 admin.site.register(ActivityComment)
 admin.site.register(ActivityNeed)
 admin.site.register(ActivityRating)
+admin.site.register(Project)
