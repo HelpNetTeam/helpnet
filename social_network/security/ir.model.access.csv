@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_social_network_post_user,social_network.post user,model_social_network_post,base.group_user,1,1,1,1
-access_social_network_post_comment_user,social_network.post.comment user,model_social_network_post_comment,base.group_user,1,1,1,1
-access_social_network_like_user,social_network.like user,model_social_network_like,base.group_user,1,1,1,1
