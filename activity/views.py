@@ -23,13 +23,15 @@ class ActivityList(APIView):
 class ActivityDetails(APIView):
 
     def get_object(self, id):
-        try:
-            return Activity.objects.get(pk=id)
-        except Activity.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Activity.objects.get(pk=id)
+       
 
     def get(self, request, id):
-        activity = self.get_object(id)
+        try: 
+            activity = self.get_object(id)
+        except Activity.DoesNotExist:
+            return Response({"activity": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+
         serializer = ActivitySerializer(activity)
         return Response(serializer.data)
 
