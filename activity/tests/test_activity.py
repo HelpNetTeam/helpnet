@@ -9,8 +9,8 @@ client = Client()
 class ActivityTestCase(TestCase):
     def setUp(self):
 
-        Activity.objects.create(name="Activity1", latitude=0.0, longitude=0.0)
-        Activity.objects.create(name="Activity2",  latitude=0.1, longitude=0.1)
+        Activity.objects.create(name="Activity1", date='2021-12-31 09:00:00', latitude=0.0, longitude=0.0)
+        Activity.objects.create(name="Activity2", date='2021-12-31 21:00:00', latitude=0.1, longitude=0.1)
 
     def test_activity_creation(self):
         """Activities are being properly created"""
@@ -38,6 +38,7 @@ class ActivityTestCase(TestCase):
     def test_activity_api_creation(self):
         data = {
             'name': 'Activity3',
+            'date': '2021-12-31 09:00:00',
             'latitude': 0.3, 
             'longitude': 0.3
         }
