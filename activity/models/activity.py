@@ -1,3 +1,4 @@
+from random import randrange
 from django.db import models
 
 from taggit.managers import TaggableManager
@@ -26,6 +27,18 @@ class Activity(models.Model):
 
     class Meta:
         verbose_name_plural = "activities"
+    
+    @property
+    def likes(self):
+        return randrange(100)
+    
+    @property
+    def comments(self):
+        return randrange(100)
+
+    # class Meta:
+    #     ordering = ['-likes','-comments']
+
 
 
 class ActivityNeed(models.Model):

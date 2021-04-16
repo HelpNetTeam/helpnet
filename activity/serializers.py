@@ -4,6 +4,14 @@ from .models.project import Project
 
 
 class ActivitySerializer(serializers.ModelSerializer):
+    likes = serializers.IntegerField(read_only=True)
+    # def get_likes(self, obj):
+    #     return obj.likes
+
+    comments = serializers.IntegerField(read_only=True)
+    # def get_comments(self, obj):
+    #     return obj.comments
+
     class Meta:
         model = Activity
         fields = '__all__'
