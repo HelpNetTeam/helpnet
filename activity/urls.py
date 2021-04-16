@@ -2,6 +2,7 @@ from django.urls import path
 from .views.activitiy_views import ActivityList, ActivityDetails
 from .views.project_views import ProjectList, ProjectDetails
 from .views.organization_views import OrganizationList, OrganizationDetails
+from .views.category_views import CategoryList, CategoryDetails
 
 urlpatterns = [
     path('activity', ActivityList.as_view(), name='activity_list'),
@@ -10,4 +11,6 @@ urlpatterns = [
     path('project/<int:id>', ProjectDetails.as_view(), name='project_detail'),
     path('organization', OrganizationList.as_view(), name='organization_list'),
     path('organization/<int:id>', OrganizationDetails.as_view(), name='organization_detail'),
+    path('category', CategoryList.as_view(), name='category_list'),
+    path('category/<int:id>', CategoryDetails.as_view(), name='category_detail'),
 ]
