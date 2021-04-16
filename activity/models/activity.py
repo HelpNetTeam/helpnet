@@ -41,7 +41,7 @@ class Activity(models.Model):
 
 
 
-class ActivityNeed(models.Model):
+class Need(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     # need_id = models.Many2one('helpnet.need')
@@ -53,7 +53,7 @@ class ActivityNeed(models.Model):
         return str(self.amount)
 
 
-class ActivityComment(models.Model):
+class Comment(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     comment = models.TextField()
@@ -64,7 +64,7 @@ class ActivityComment(models.Model):
         return self.comment[:16]
 
 
-class ActivityRating(models.Model):
+class Rating(models.Model):
 
     ranking = (
         ('1', 'Bad'),
