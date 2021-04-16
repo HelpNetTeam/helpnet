@@ -29,11 +29,11 @@ class Activity(models.Model):
         verbose_name_plural = "activities"
     
     @property
-    def likes(self):
+    def likes_count(self):
         return randrange(100)
     
     @property
-    def comments(self):
+    def comments_count(self):
         return randrange(100)
 
     # class Meta:

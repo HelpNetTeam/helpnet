@@ -51,10 +51,10 @@ class ActivityTestCase(TestCase):
     def test_activity_likes_count(self):
         """Activity likes are being computed and returned OK"""
         activity1 = Activity.objects.get(name="Activity1")
-        self.assertTrue(0 <= activity1.likes <= 100)
+        self.assertTrue(0 <= activity1.likes_count <= 100)
     
     def test_activity_comments_count(self):
         """Activity comments are being computed and returned OK"""
         activity1 = Activity.objects.get(name="Activity1")
-        self.assertTrue(0 <= activity1.comments <= 100)
+        self.assertTrue(0 <= activity1.comments_count <= 100)
         # self.assertTrue(0 <= activity1.get_comments_count() <= 100)
