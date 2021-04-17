@@ -11,11 +11,11 @@ class ActivityList(APIView):
 
     def get(self, request):
         activities = Activity.objects.all()
-        serializer = ActivitySerializer(activities, many=True)
+        serializer = ActivitySerializer(activities, many=True, context={'request': request})
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = ActivitySerializer(data=request.data)
+        serializer = ActivitySerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -44,7 +44,7 @@ class ActivityDetails(APIView):
 
     def put(self, request, pk):
         activity = self.get_object(pk)
-        serializer = ActivitySerializer(activity, data=request.data)
+        serializer = ActivitySerializer(activity, data=request.data, context={'request': request})
         if serializer.is_valpk():
             serializer.save()
             return Response(serializer.data)
