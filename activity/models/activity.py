@@ -25,8 +25,8 @@ class Activity(models.Model):
     category_id = models.ForeignKey(Category, related_name="activities", on_delete=models.SET_NULL, null=True)
     tags = TaggableManager()
 
-    # def __str__(self):
-    #     return self.name + ''
+    def __str__(self):
+        return f'{self.name} at ({self.date})'
 
     class Meta:
         verbose_name_plural = "activities"
