@@ -1,12 +1,14 @@
 from django.db import models
+from .profile import Profile
+from .organization import Organization
 
 
 class Project(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    # organization_id = models.Many2one('helpnet.organization')
-    # responsible_id = models.Many2one('res.partner')
+    organization_id = models.ForeignKey(Organization, related_name='projects', on_delete=models.SET_NULL, null=True)
+    responsible_id = models.ForeignKey(Profile, related_name='projects', on_delete=models.SET_NULL, null=True)
     website = models.URLField()
 
     def __str__(self):

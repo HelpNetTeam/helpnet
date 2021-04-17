@@ -7,13 +7,13 @@ from .organization import Organization
 from .project import Project
 from .category import Category
 from .need import Need, NeedUom
-
+from .profile import Profile
 
 class Activity(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    # responsable_id = models.ForeignKey(User, related_name='activities', on_delete=models.SET_NULL)
+    responsable_id = models.ForeignKey(Profile, related_name='activities', on_delete=models.SET_NULL, null=True)
     organization_id = models.ForeignKey(Organization, related_name='activities', on_delete=models.SET_NULL, null=True)
     project_id = models.ForeignKey(Project, related_name='activities', on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(null=True)
@@ -46,10 +46,10 @@ class Activity(models.Model):
 class NeedActivity(models.Model):
 
     id = models.BigAutoField(primary_key=True)
-    need_id = models.ForeignKey(Need, related_name='needs', on_delete=models.SET_NULL, null=True)
-    uom_id = models.ForeignKey(NeedUom, related_name='uoms', on_delete=models.SET_NULL, null=True)
+    need_id = models.ForeignKey(Need, related_name='activity_needs', on_delete=models.SET_NULL, null=True)
+    uom_id = models.ForeignKey(NeedUom, related_name='activity_needs', on_delete=models.SET_NULL, null=True)
     qty = models.FloatField()
-    activity_id = models.ForeignKey(Activity, related_name='%(class)s_activities', on_delete=models.CASCADE, null=True)
+    activity_id = models.ForeignKey(Activity, related_name='activity_needs', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return str(f'{self.need_id.name}: {self.qty}')
@@ -58,15 +58,30 @@ class NeedActivity(models.Model):
 class Comment(models.Model):
 
     id = models.BigAutoField(primary_key=True)
-    comment = models.TextField()
-    # user_id = models.Many2one('res.partner')
-    activity_id = models.ForeignKey(Activity, related_name='comments', on_delete=models.CASCADE, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+    title = models.TextField()
+    body = models.TextField()
+    user = models.ForeignKey(Profile, related_name='comments', on_delete=models.SET_NULL, null=True)
+    # parent_id # Nested comments
+    is_active = models.BooleanField(default=True)
+    activity = models.ForeignKey(Activity, related_name='comments', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.comment[:16]
 
+    def likes_count(self):
+        pass
 
-class Rating(models.Model):
+
+class CommentLike(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    comment = models.ForeignKey(Comment, related_name='likes', on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, related_name='activity_comment_likes', on_delete=models.SET_NULL, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+
+class Rewiew(models.Model):
 
     ranking = (
         ('1', 'Bad'),
@@ -78,8 +93,9 @@ class Rating(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     rating = models.CharField(max_length=15, choices=ranking)
-    # user_id = models.Many2one('res.partner')
-    activity_id = models.ForeignKey(Activity, related_name='%(class)s_activities', on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(Profile, related_name='activity_reviews', on_delete=models.SET_NULL, null=True)
+    activity = models.ForeignKey(
+        Activity, related_name='Reviews', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.rating
