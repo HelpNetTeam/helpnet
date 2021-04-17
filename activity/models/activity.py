@@ -27,11 +27,11 @@ class Activity(models.Model):
 
     class Meta:
         verbose_name_plural = "activities"
-    
+
     @property
     def likes_count(self):
         return randrange(100)
-    
+
     @property
     def comments_count(self):
         return randrange(100)
@@ -41,7 +41,7 @@ class Activity(models.Model):
 
 
 
-class Need(models.Model):
+class NeedActivity(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     # need_id = models.Many2one('helpnet.need')
