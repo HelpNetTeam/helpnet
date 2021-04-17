@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models.activity import Activity
+from .models.activity import Activity, Comment
 from .models.project import Project
 from .models.organization import Organization
 from .models.category import Category
@@ -9,9 +9,21 @@ from .models.need import Need, NeedUom
 class ActivitySerializer(serializers.ModelSerializer):
     likes_count = serializers.IntegerField(read_only=True)
     comments_count = serializers.IntegerField(read_only=True)
+    comments = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='comment-detail'
+    )
 
     class Meta:
         model = Activity
+        fields = '__all__'
+
+
+class CommentSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Comment
         fields = '__all__'
 
 

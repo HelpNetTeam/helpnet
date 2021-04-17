@@ -22,7 +22,7 @@ class ActivityTestCase(TestCase):
     def test_get_valid_single_activity(self):
         activity1 = Activity.objects.get(name="Activity1")
         response = client.get(
-            reverse('activity_detail', kwargs={'id': activity1.pk})
+            reverse('activity-detail', kwargs={'pk': activity1.pk})
             )
         activity = Activity.objects.get(pk=activity1.pk)
         serializer = ActivitySerializer(activity)
@@ -31,7 +31,7 @@ class ActivityTestCase(TestCase):
 
     def test_get_invalid_single_activity(self):
         response = client.get(
-            reverse('activity_detail', kwargs={'id': 30})
+            reverse('activity-detail', kwargs={'pk': 30})
             )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 

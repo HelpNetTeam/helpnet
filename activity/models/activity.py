@@ -3,24 +3,27 @@ from django.db import models
 
 from taggit.managers import TaggableManager
 
+from .organization import Organization
+from .project import Project
+from .category import Category
+from .need import Need, NeedUom
+
 
 class Activity(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    # organization_id = models.Many2one('helpnet.organization')
-    # project_id = models.Many2one('helpnet.project')
-    date = models.DateTimeField()
+    # responsable_id = models.ForeignKey(User, related_name='activities', on_delete=models.SET_NULL)
+    organization_id = models.ForeignKey(Organization, related_name='activities', on_delete=models.SET_NULL, null=True)
+    project_id = models.ForeignKey(Project, related_name='activities', on_delete=models.SET_NULL, null=True)
+    date = models.DateTimeField(null=True)
     address = models.TextField(null=True)
     country_id = models.IntegerField(null=True)
     state_id = models.IntegerField(null=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
-    # category_id = models.Many2one('helpnet.category', 'Category')
-    # need_ids = models.One2many('helpnet.activity.need', 'activity_id')
+    category_id = models.ForeignKey(Category, related_name="activities", on_delete=models.SET_NULL, null=True)
     tags = TaggableManager()
-    # comment_ids = models.One2many('helpnet.activity.comment', 'activity_id')
-    # rating_ids = models.One2many('helpnet.activity.rating', 'activity_id')
 
     # def __str__(self):
     #     return self.name + ''
@@ -40,25 +43,24 @@ class Activity(models.Model):
     #     ordering = ['-likes','-comments']
 
 
-
 class NeedActivity(models.Model):
 
     id = models.BigAutoField(primary_key=True)
-    # need_id = models.Many2one('helpnet.need')
-    # uom_id = models.Many2one('helpnet.need.uom')
-    amount = models.FloatField()
-    # activity_id = models.Many2one('helpnet.activity')
+    need_id = models.ForeignKey(Need, related_name='needs', on_delete=models.SET_NULL, null=True)
+    uom_id = models.ForeignKey(NeedUom, related_name='uoms', on_delete=models.SET_NULL, null=True)
+    qty = models.FloatField()
+    activity_id = models.ForeignKey(Activity, related_name='%(class)s_activities', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return str(self.amount)
+        return str(f'{self.need_id.name}: {self.qty}')
 
 
 class Comment(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     comment = models.TextField()
-    # partner_id = models.Many2one('res.partner')
-    # activity_id = models.Many2one('helpnet.activity')
+    # user_id = models.Many2one('res.partner')
+    activity_id = models.ForeignKey(Activity, related_name='comments', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.comment[:16]
@@ -76,8 +78,8 @@ class Rating(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     rating = models.CharField(max_length=15, choices=ranking)
-    # partner_id = models.Many2one('res.partner')
-    # activity_id = models.Many2one('helpnet.activity')
+    # user_id = models.Many2one('res.partner')
+    activity_id = models.ForeignKey(Activity, related_name='%(class)s_activities', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.rating
