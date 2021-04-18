@@ -4,6 +4,7 @@ from .models.project import Project
 from .models.organization import Organization
 from .models.category import Category
 from .models.need import Need, NeedUom
+from .models.profile import Profile
 
 
 class ActivitySerializer(serializers.ModelSerializer):
@@ -51,4 +52,10 @@ class NeedSerializer(serializers.ModelSerializer):
 class NeedUomSerializer(serializers.ModelSerializer):
     class Meta:
         model = NeedUom
+        fields = '__all__'
+
+class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Profile
         fields = '__all__'

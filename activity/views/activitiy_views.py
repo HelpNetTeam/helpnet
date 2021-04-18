@@ -58,13 +58,15 @@ class ActivityDetails(APIView):
 
 ### Comment Views
 
-class CommentList(APIView):
+class CommentActivityList(APIView):
 
-    def get(self, request):
-        comments = Comment.objects.all()
+    def get(self, request, activity):
+        """Get only the comments asociated to a comment"""
+        comments = Comment.objects.filter(activity=activity)
         serializer = CommentSerializer(comments, many=True, context={'request': request})
         return Response(serializer.data)
 
+class CommentCreate(APIView):
     def post(self, request):
         serializer = CommentSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():

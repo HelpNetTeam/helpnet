@@ -67,7 +67,7 @@ class Comment(models.Model):
     activity = models.ForeignKey(Activity, related_name='comments', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.comment[:16]
+        return self.title[:16]
 
     def likes_count(self):
         pass
