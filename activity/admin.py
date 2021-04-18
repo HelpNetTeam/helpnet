@@ -3,6 +3,7 @@ from .models.activity import (
     Activity,
     Comment,
     CommentLike,
+    ActivityLike,
     NeedActivity,
     Review,
     )
@@ -16,6 +17,7 @@ from .models.profile import Profile
 admin.site.register(Activity)
 admin.site.register(Comment)
 admin.site.register(CommentLike)
+admin.site.register(ActivityLike)
 admin.site.register(NeedActivity)
 admin.site.register(Review)
 admin.site.register(Project)

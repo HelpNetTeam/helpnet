@@ -3,7 +3,7 @@ from .views.activitiy_views import (
     ActivityList, ActivityDetails,
     CommentDetails,CommentCreate, CommentActivityList,
     ReviewDetails, ReviewCreate, ReviewActivityList,
-)
+    ActivityLikeCreate, ActivityLikeDetails)
 from .views.project_views import ProjectList, ProjectDetails
 from .views.organization_views import OrganizationList, OrganizationDetails
 from .views.category_views import CategoryList, CategoryDetails
@@ -14,11 +14,13 @@ urlpatterns = [
     path('activity', ActivityList.as_view(), name='activity-list'),
     path('activity/<int:pk>', ActivityDetails.as_view(), name='activity-detail'),
     path('activity/<int:activity>/comment', CommentActivityList.as_view(), name='comment-list'),
-    path('comment/<int:pk>', CommentDetails.as_view(), name='comment-detail'),
-    path('comment', CommentCreate.as_view(), name='comment-create'),
+    path('activity/comment/<int:pk>', CommentDetails.as_view(), name='comment-detail'),
+    path('activity/comment', CommentCreate.as_view(), name='comment-create'),
+    path('activity/like/<int:pk>', ActivityLikeDetails.as_view(), name='activitylike-detail'),
+    path('activity/like', ActivityLikeCreate.as_view(), name='activitylike-create'),
     path('activity/<int:activity>/review', ReviewActivityList.as_view(), name='review-list'),
-    path('review/<int:pk>', ReviewDetails.as_view(), name='review-detail'),
-    path('review', ReviewCreate.as_view(), name='review-create'),
+    path('activity/review/<int:pk>', ReviewDetails.as_view(), name='review-detail'),
+    path('activity/review', ReviewCreate.as_view(), name='review-create'),
     path('project', ProjectList.as_view(), name='project_list'),
     path('project/<int:id>', ProjectDetails.as_view(), name='project_detail'),
     path('organization', OrganizationList.as_view(), name='organization_list'),

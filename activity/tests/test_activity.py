@@ -247,3 +247,14 @@ class ActivityLikeTestCase(TestCase):
         """Activity Likes are being properly created"""
         self.assertEqual(self.activity_like1.user, self.user)
         self.assertEqual(self.activity_like2.user, self.user)
+    
+    def test_activity_like_api_creation(self):
+        data = {
+            'user': reverse('profile-detail', kwargs={'pk': self.user.pk}),
+            'activity': reverse('activity-detail', kwargs={'pk': self.activity.pk}),
+        }
+        response = client.post(
+            path=reverse('activitylike-create'),
+            data=data
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)

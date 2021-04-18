@@ -4,7 +4,9 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from activity.models.activity import Activity, Comment, Review
-from activity.serializers import ActivitySerializer, CommentSerializer, ReviewSerializer
+from activity.serializers import (
+    ActivitySerializer, CommentSerializer, ReviewSerializer,
+    ActivityLikeSerializer)
 
 
 class ActivityList(APIView):
@@ -102,6 +104,38 @@ class CommentDetails(APIView):
         comment = self.get_object(pk)
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+### Activity Likes Views
+
+class ActivityLikeCreate(APIView):
+    def post(self, request):
+        serializer = ActivityLikeSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ActivityLikeDetails(APIView):
+
+    def get_object(self, pk):
+        return ActivityLike.objects.get(pk=pk)
+
+    def get(self, request, pk):
+        try: 
+            activity_like = self.get_object(pk)
+        except ActivityLike.DoesNotExist:
+            return Response({"activity-like": "Not found."},
+            status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ActivityLikeSerializer(comment, context={'request': request})
+        return Response(serializer.data)
+    
+    def delete(self, request, pk):
+        activity_like = self.get_object(pk)
+        activity_like.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 ### Review Views
 

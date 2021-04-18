@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models.activity import Activity, Comment, Review
+from .models.activity import Activity, Comment, Review, ActivityLike
 from .models.project import Project
 from .models.organization import Organization
 from .models.category import Category
@@ -25,6 +25,12 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Comment
+        fields = '__all__'
+
+class ActivityLikeSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = ActivityLike
         fields = '__all__'
 
 class ReviewSerializer(serializers.HyperlinkedModelSerializer):
