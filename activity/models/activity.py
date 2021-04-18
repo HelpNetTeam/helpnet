@@ -81,9 +81,9 @@ class CommentLike(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
 
-class Rewiew(models.Model):
+class Review(models.Model):
 
-    ranking = (
+    RANKING = (
         ('1', 'Bad'),
         ('2', 'Kinda Bad'),
         ('3', 'Normal'),
@@ -92,7 +92,8 @@ class Rewiew(models.Model):
         )
 
     id = models.BigAutoField(primary_key=True)
-    rating = models.CharField(max_length=15, choices=ranking)
+    date = models.DateTimeField(auto_now_add=True)
+    rating = models.CharField(max_length=15, choices=RANKING)
     user = models.ForeignKey(Profile, related_name='activity_reviews', on_delete=models.SET_NULL, null=True)
     activity = models.ForeignKey(
         Activity, related_name='Reviews', on_delete=models.CASCADE, null=True)

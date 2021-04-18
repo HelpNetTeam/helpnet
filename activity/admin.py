@@ -4,7 +4,7 @@ from .models.activity import (
     Comment,
     CommentLike,
     NeedActivity,
-    Rewiew,
+    Review,
     )
 from .models.project import Project
 from .models.organization import Organization
@@ -17,7 +17,7 @@ admin.site.register(Activity)
 admin.site.register(Comment)
 admin.site.register(CommentLike)
 admin.site.register(NeedActivity)
-admin.site.register(Rewiew)
+admin.site.register(Review)
 admin.site.register(Project)
 admin.site.register(Organization)
 admin.site.register(Category)
