@@ -8,7 +8,7 @@ from .views.project_views import ProjectList, ProjectDetails
 from .views.organization_views import OrganizationList, OrganizationDetails
 from .views.category_views import CategoryList, CategoryDetails
 from .views.need_views import NeedList, NeedDetails, NeedUomList, NeedUomDetails
-from .views.profile_views import ProfileDetails
+from .views.profile_views import ProfileDetails, ProfileCreate
 
 urlpatterns = [
     path('activity', ActivityList.as_view(), name='activity-list'),
@@ -29,5 +29,6 @@ urlpatterns = [
     path('need/<int:id>', NeedDetails.as_view(), name='need_detail'),
     path('need_uom', NeedUomList.as_view(), name='need_uom_list'),
     path('need_uom/<int:id>', NeedUomDetails.as_view(), name='need_uom_detail'),
+    path('profile', ProfileCreate.as_view(), name='profile-create'),
     path('profile/<int:pk>', ProfileDetails.as_view(), name='profile-detail'),
 ]

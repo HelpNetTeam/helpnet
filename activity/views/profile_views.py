@@ -12,6 +12,9 @@ class ProfileList(APIView):
         serializer = ProfileSerializer(profiles, many=True, context={'request': request})
         return Response(serializer.data)
 
+
+class ProfileCreate(APIView):
+
     def post(self, request):
         serializer = ProfileSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
@@ -22,12 +25,12 @@ class ProfileList(APIView):
 
 class ProfileDetails(APIView):
 
-    def get_object(self, id):
-        return Profile.objects.get(pk=id)
+    def get_object(self, pk):
+        return Profile.objects.get(pk=pk)
 
-    def get(self, request, id):
+    def get(self, request, pk):
         try:
-            profile = self.get_object(id)
+            profile = self.get_object(pk)
         except Profile.DoesNotExist:
             return Response({"profile": "Not found."},
                             status=status.HTTP_404_NOT_FOUND)
@@ -35,15 +38,15 @@ class ProfileDetails(APIView):
         serializer = ProfileSerializer(profile, context={'request': request})
         return Response(serializer.data)
 
-    def put(self, request, id):
-        profile = self.get_object(id)
+    def put(self, request, pk):
+        profile = self.get_object(pk)
         serializer = ProfileSerializer(profile, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, id):
-        profile = self.get_object(id)
+    def delete(self, request, pk):
+        profile = self.get_object(pk)
         profile.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
