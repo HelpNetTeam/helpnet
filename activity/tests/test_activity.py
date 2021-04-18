@@ -3,7 +3,7 @@ from django.test import TestCase, Client
 from django.test.client import RequestFactory
 from django.urls import reverse
 from rest_framework import status
-from activity.models.activity import Activity, Comment, Review
+from activity.models.activity import Activity, Comment, Review, ActivityLike
 from activity.serializers import ActivitySerializer, CommentSerializer, ReviewSerializer
 from activity.models.profile import Profile
 
@@ -67,7 +67,7 @@ class ActivityTestCase(TestCase):
 
         [Comment.objects.create(**data) for _ in range(5)]
 
-        self.assertEquals(self.activity1.comments_count, 5)
+        self.assertEqual(self.activity1.comments_count, 5)
 
     def test_comment_count_on_api_response(self):
         """Activity comments are being computed and returned OK using the API"""
@@ -86,8 +86,37 @@ class ActivityTestCase(TestCase):
         request = factory.get(reversed_url)
         serializer = ActivitySerializer(self.activity1, context={'request': request})
 
-        self.assertEquals(serializer.data.get('comments_count'), 5)
+        self.assertEqual(serializer.data.get('comments_count'), 5)
 
+    def test_activity_likes_count(self):
+        """Activity likes are being computed and returned OK"""
+
+        data = {
+            'date': '2021-12-31 09:00:00',
+            'user': self.user,
+            'activity': self.activity1,
+        }
+
+        [ActivityLike.objects.create(**data) for _ in range(5)]
+
+        self.assertEqual(self.activity1.likes_count, 5)
+
+    def test_activity_likes_count_on_api_response(self):
+        """Activity likes are being computed and returned OK using the API"""
+        reversed_url = reverse('activity-detail', kwargs={'pk': self.activity1.pk})
+        data = {
+            'date': '2021-12-31 09:00:00',
+            'user': self.user,
+            'activity': self.activity1,
+        }
+
+        [ActivityLike.objects.create(**data) for _ in range(5)]
+
+        response = client.get(reversed_url)
+        request = factory.get(reversed_url)
+        serializer = ActivitySerializer(self.activity1, context={'request': request})
+
+        self.assertEqual(serializer.data.get('likes_count'), 5)
 
 ## Test Comments
 
@@ -113,11 +142,9 @@ class CommentTestCase(TestCase):
             )
 
     def test_comment_creation(self):
-        """Activities are being properly created"""
-        comment1 = Comment.objects.get(title="This is the first comment")
-        comment2 = Comment.objects.get(title="This is the second comment")
-        self.assertEqual(comment1.title, 'This is the first comment')
-        self.assertEqual(comment2.title, 'This is the second comment')
+        """Comments are being properly created"""
+        self.assertEqual(self.comment1.title, 'This is the first comment')
+        self.assertEqual(self.comment2.title, 'This is the second comment')
 
     def test_get_valid_single_comment(self):
         reversed_url = reverse('comment-detail', kwargs={'pk': self.comment1.pk})
@@ -197,3 +224,26 @@ class ReviewTestCase(TestCase):
             data=data
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+
+class ActivityLikeTestCase(TestCase):
+
+    def setUp(self):
+        
+        self.activity = Activity.objects.create(name="Activity1", date='2021-12-31 09:00:00', latitude=0.0, longitude=0.0)
+        self.user = Profile.objects.create(name="User", phone='1234567', email='u@u.com')
+
+        self.activity_like1 = ActivityLike.objects.create(
+            date='2021-12-31 09:00:00',
+            user=self.user,
+            activity=self.activity,
+            )
+        self.activity_like2 = ActivityLike.objects.create(
+            user=self.user,
+            activity=self.activity,
+            )
+        
+    def test_activity_like_creation(self):
+        """Activity Likes are being properly created"""
+        self.assertEqual(self.activity_like1.user, self.user)
+        self.assertEqual(self.activity_like2.user, self.user)

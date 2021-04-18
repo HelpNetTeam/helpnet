@@ -33,7 +33,7 @@ class Activity(models.Model):
 
     @property
     def likes_count(self):
-        return randrange(100)
+        return self.likes.count()
 
     @property
     def comments_count(self):
@@ -54,8 +54,14 @@ class NeedActivity(models.Model):
     def __str__(self):
         return str(f'{self.need_id.name}: {self.qty}')
 
+class ActivityLike(models.Model):
 
-class Comment(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    activity = models.ForeignKey(Activity, related_name='likes', on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, related_name='activity_likes', on_delete=models.SET_NULL, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+class Comment(models.Model): # TODO: This should be called CommentActivity
 
     id = models.BigAutoField(primary_key=True)
     date = models.DateTimeField(auto_now_add=True)
@@ -73,7 +79,7 @@ class Comment(models.Model):
         pass
 
 
-class CommentLike(models.Model):
+class CommentLike(models.Model): # TODO: This should be called CommentActivityLikes
 
     id = models.BigAutoField(primary_key=True)
     comment = models.ForeignKey(Comment, related_name='likes', on_delete=models.CASCADE)
