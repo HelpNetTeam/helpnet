@@ -8,10 +8,11 @@ from activity.serializers import ActivitySerializer, CommentSerializer, ReviewSe
 from activity.models.profile import Profile
 
 client = Client()
+factory = RequestFactory()
 
 class ActivityTestCase(TestCase):
     def setUp(self):
-
+        self.user = Profile.objects.create(name="User", phone='1234567', email='u@u.com')
         self.activity1 = Activity.objects.create(
             name="Activity1", date='2021-12-31 09:00:00', latitude=0.0, longitude=0.0)
         self.activity2 = Activity.objects.create(
@@ -55,14 +56,43 @@ class ActivityTestCase(TestCase):
     
     def test_activity_comments_count(self):
         """Activity comments are being computed and returned OK"""
-        self.assertTrue(0 <= self.activity1.comments_count <= 100)
-        # self.assertTrue(0 <= self.activity1.get_comments_count() <= 100)
+
+        data = {
+            'date': '2021-12-31 09:00:00',
+            'title': 'This is the first comment',
+            'body': 'This is a longer message for the first comment',
+            'user': self.user,
+            'activity': self.activity1,
+        }
+
+        [Comment.objects.create(**data) for _ in range(5)]
+
+        self.assertEquals(self.activity1.comments_count, 5)
+
+    def test_comment_count_on_api_response(self):
+        """Activity comments are being computed and returned OK using the API"""
+        reversed_url = reverse('activity-detail', kwargs={'pk': self.activity1.pk})
+        data = {
+            'date': '2021-12-31 09:00:00',
+            'title': 'This is the first comment',
+            'body': 'This is a longer message for the first comment',
+            'user': self.user,
+            'activity': self.activity1,
+        }
+
+        [Comment.objects.create(**data) for _ in range(5)]
+
+        response = client.get(reversed_url)
+        request = factory.get(reversed_url)
+        serializer = ActivitySerializer(self.activity1, context={'request': request})
+
+        self.assertEquals(serializer.data.get('comments_count'), 5)
+
 
 ## Test Comments
 
 class CommentTestCase(TestCase):
     def setUp(self):
-        self.factory = RequestFactory()
         
         self.activity = Activity.objects.create(name="Activity1", date='2021-12-31 09:00:00', latitude=0.0, longitude=0.0)
         self.user = Profile.objects.create(name="User", phone='1234567', email='u@u.com')
@@ -90,12 +120,9 @@ class CommentTestCase(TestCase):
         self.assertEqual(comment2.title, 'This is the second comment')
 
     def test_get_valid_single_comment(self):
-        response = client.get(
-            reverse('comment-detail', kwargs={'pk': self.comment1.pk})
-            )
-        request = self.factory.get(
-            reverse('comment-detail', kwargs={'pk': self.comment1.pk})
-            )
+        reversed_url = reverse('comment-detail', kwargs={'pk': self.comment1.pk})
+        response = client.get(reversed_url)
+        request = factory.get(reversed_url)
         serializer = CommentSerializer(self.comment1, context={'request': request})
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -124,7 +151,6 @@ class CommentTestCase(TestCase):
 
 class ReviewTestCase(TestCase):
     def setUp(self):
-        self.factory = RequestFactory()
 
         self.activity = Activity.objects.create(name="Activity1", date='2021-12-31 09:00:00', latitude=0.0, longitude=0.0)
         self.user = Profile.objects.create(name="User", phone='1234567', email='u@u.com')
@@ -149,7 +175,7 @@ class ReviewTestCase(TestCase):
         reversed_url = reverse('review-detail', kwargs={'pk': self.review1.pk})
 
         response = client.get(reversed_url)
-        request = self.factory.get(reversed_url)
+        request = factory.get(reversed_url)
         serializer = ReviewSerializer(self.review1, context={'request': request})
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

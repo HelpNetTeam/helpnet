@@ -37,7 +37,7 @@ class Activity(models.Model):
 
     @property
     def comments_count(self):
-        return randrange(100)
+        return self.comments.count()
 
     # class Meta:
     #     ordering = ['-likes','-comments']
