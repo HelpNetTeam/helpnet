@@ -3,11 +3,11 @@ from django.db import models
 
 from taggit.managers import TaggableManager
 
+from core.models.profile import Profile
 from .organization import Organization
 from .project import Project
 from .category import Category
 from .need import Need, NeedUom
-from .profile import Profile
 
 class Activity(models.Model):
 

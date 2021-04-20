@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['96.126.120.66', 'localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'taggit',
     'rest_framework',
+    'taggit',
+    'core',
     'activity',
+    'social_network',
 ]
 
 MIDDLEWARE = [

@@ -2,8 +2,8 @@ from django.test import TestCase, Client
 from django.test.client import RequestFactory
 from django.urls import reverse
 from rest_framework import status
-from activity.models.profile import Profile
-from activity.serializers import ProfileSerializer
+from core.models.profile import Profile
+from core.serializers import ProfileSerializer
 
 client = Client()
 

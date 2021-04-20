@@ -1,4 +1,5 @@
 from django.contrib import admin
+from core.models.profile import Profile
 from .models.activity import (
     Activity,
     Comment,
@@ -11,7 +12,6 @@ from .models.project import Project
 from .models.organization import Organization
 from .models.category import Category
 from .models.need import Need, NeedUom
-from .models.profile import Profile
 
 
 admin.site.register(Activity)
@@ -25,5 +25,4 @@ admin.site.register(Organization)
 admin.site.register(Category)
 admin.site.register(Need)
 admin.site.register(NeedUom)
-admin.site.register(Profile)
 
