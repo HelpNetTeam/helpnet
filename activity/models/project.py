@@ -1,5 +1,5 @@
 from django.db import models
-from .profile import Profile
+from core.models.profile import Profile
 from .organization import Organization
 
 

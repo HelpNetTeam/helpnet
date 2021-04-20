@@ -3,9 +3,9 @@ from django.test import TestCase, Client
 from django.test.client import RequestFactory
 from django.urls import reverse
 from rest_framework import status
+from core.models.profile import Profile
 from activity.models.activity import Activity, Comment, Review, ActivityLike
 from activity.serializers import ActivitySerializer, CommentSerializer, ReviewSerializer
-from activity.models.profile import Profile
 
 client = Client()
 factory = RequestFactory()

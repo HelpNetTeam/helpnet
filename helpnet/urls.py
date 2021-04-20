@@ -19,7 +19,9 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('activity.urls'))
+    path('', include('core.urls')),
+    path('', include('activity.urls')),
+    # path('', include('social_network.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

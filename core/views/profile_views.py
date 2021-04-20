@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from activity.models.profile import Profile
-from activity.serializers import ProfileSerializer
+from core.models.profile import Profile
+from core.serializers import ProfileSerializer
 
 
 class ProfileList(APIView):
