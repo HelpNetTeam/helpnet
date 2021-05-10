@@ -14,9 +14,19 @@ class ActivityTestCase(TestCase):
     def setUp(self):
         self.user = Profile.objects.create(name="User", phone='1234567', email='u@u.com')
         self.activity1 = Activity.objects.create(
-            name="Activity1", date='2021-12-31 09:00:00', latitude=0.0, longitude=0.0)
+            name="Activity1",
+            date='2021-12-31 09:00:00', 
+            latitude=0.0, 
+            longitude=0.0,
+            description='This is a long description for the activity #1',
+            )
         self.activity2 = Activity.objects.create(
-            name="Activity2", date='2021-12-31 21:00:00', latitude=0.1, longitude=0.1)
+            name="Activity2",
+            date='2021-12-31 21:00:00',
+            latitude=0.1,
+            longitude=0.1,
+            description='This is a long description for the activity #2',
+            )
 
     def test_activity_creation(self):
         """Activities are being properly created"""
@@ -42,7 +52,8 @@ class ActivityTestCase(TestCase):
             'name': 'Activity3',
             'date': '2021-12-31 09:00:00',
             'latitude': 0.3, 
-            'longitude': 0.3
+            'longitude': 0.3,
+            'description': 'This is a long description for the activity #3',
         }
         response = client.post(
             path=reverse('activity-list'),

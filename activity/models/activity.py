@@ -13,6 +13,7 @@ class Activity(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100)
+    description = models.TextField()
     responsable_id = models.ForeignKey(Profile, related_name='activities', on_delete=models.SET_NULL, null=True)
     organization_id = models.ForeignKey(Organization, related_name='activities', on_delete=models.SET_NULL, null=True)
     project_id = models.ForeignKey(Project, related_name='activities', on_delete=models.SET_NULL, null=True)
