@@ -6,6 +6,11 @@ python -m venv venv # Create a virual environment
 source venv/bin/activate # set the virtual environment
 pip install -r requirements.txt # Install all the requirements
 
+#Create and .env file to store and set the environment variables
+touch .env
+echo "SECRET_KEY=MySuperSecretKey" >> .env
+echo "ALLOWED_HOSTS=['96.126.120.66', 'localhost', '127.0.0.1']" >> .env
+
 # Check if there any change in models, If so, prepare a script to apply those changes in the db
 python manage.py makemigrations
 
