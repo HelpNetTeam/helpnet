@@ -15,6 +15,10 @@ class ActivitySerializer(serializers.ModelSerializer):
         read_only=True,
         view_name='comment-detail'
     )
+    category = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        view_name='category-detail'
+    )
 
     class Meta:
         model = Activity
@@ -50,7 +54,9 @@ class OrganizationSerializer(serializers.ModelSerializer):
         model = Organization
         fields = '__all__'
 
-class CategorySerializer(serializers.ModelSerializer):
+
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Category
         fields = '__all__'

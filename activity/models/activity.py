@@ -23,7 +23,7 @@ class Activity(models.Model):
     state_id = models.IntegerField(null=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
-    category_id = models.ForeignKey(Category, related_name="activities", on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Category, related_name="activities", on_delete=models.SET_NULL, null=True)
     tags = TaggableManager()
 
     def __str__(self):

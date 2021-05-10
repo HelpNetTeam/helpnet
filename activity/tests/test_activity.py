@@ -5,6 +5,7 @@ from django.urls import reverse
 from rest_framework import status
 from core.models.profile import Profile
 from activity.models.activity import Activity, Comment, Review, ActivityLike
+from activity.models.category import Category
 from activity.serializers import ActivitySerializer, CommentSerializer, ReviewSerializer
 
 client = Client()
@@ -13,19 +14,22 @@ factory = RequestFactory()
 class ActivityTestCase(TestCase):
     def setUp(self):
         self.user = Profile.objects.create(name="User", phone='1234567', email='u@u.com')
+        self.category_a = Category.objects.create(name='Category A', description="Long description")
         self.activity1 = Activity.objects.create(
             name="Activity1",
-            date='2021-12-31 09:00:00', 
+            #date='2021-12-31 09:00:00', 
             latitude=0.0, 
             longitude=0.0,
             description='This is a long description for the activity #1',
+            category=self.category_a,
             )
         self.activity2 = Activity.objects.create(
             name="Activity2",
-            date='2021-12-31 21:00:00',
+            #date='2021-12-31 21:00:00',
             latitude=0.1,
             longitude=0.1,
             description='This is a long description for the activity #2',
+            category=self.category_a,
             )
 
     def test_activity_creation(self):
@@ -34,11 +38,11 @@ class ActivityTestCase(TestCase):
         self.assertEqual(self.activity2.name, 'Activity2')
 
     def test_get_valid_single_activity(self):
-        response = client.get(
-            reverse('activity-detail', kwargs={'pk': self.activity1.pk})
-            )
-        serializer = ActivitySerializer(self.activity1)
-        # self.assertEqual(response.data, serializer.data)
+        reversed_url = reverse('activity-detail', kwargs={'pk': self.activity1.pk})
+        response = client.get(reversed_url)
+        request = factory.get(reversed_url)
+        serializer = ActivitySerializer(self.activity1, context={'request': request})
+        self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_invalid_single_activity(self):
@@ -128,6 +132,15 @@ class ActivityTestCase(TestCase):
         serializer = ActivitySerializer(self.activity1, context={'request': request})
 
         self.assertEqual(serializer.data.get('likes_count'), 5)
+
+    def test_category_activity_is_hyperlinked(self):
+        """Activity categories are being properly hyperlinked"""
+        category_reversed_url = 'http://testserver' + reverse('category-detail', kwargs={'pk': self.activity1.category.pk})
+        activity_reversed_url = reverse('activity-detail', kwargs={'pk': self.activity1.pk})
+
+        request = factory.get(activity_reversed_url)
+        serializer = ActivitySerializer(self.activity1, context={'request': request})
+        self.assertEqual(serializer.data.get('category'), category_reversed_url)
 
 ## Test Comments
 
