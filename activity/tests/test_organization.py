@@ -1,10 +1,12 @@
 from django.test import TestCase, Client
+from django.test.client import RequestFactory
 from django.urls import reverse
 from rest_framework import status
 from activity.models.organization import Organization
 from activity.serializers import OrganizationSerializer
 
 client = Client()
+factory = RequestFactory()
 
 
 class OrganizationTestCase(TestCase):
@@ -26,16 +28,18 @@ class OrganizationTestCase(TestCase):
         self.assertEqual(self.organization2.website, 'test2.com')
 
     def test_get_valid_single_organization(self):
-        response = client.get(
-            reverse('organization_detail', kwargs={'id': self.organization1.pk})
-            )
-        serializer = OrganizationSerializer(self.organization1)
+        reversed_url = reverse('organization-detail', kwargs={'pk': self.organization1.pk})
+
+        response = client.get(reversed_url)
+        request = factory.get(reversed_url)
+
+        serializer = OrganizationSerializer(self.organization1, context={'request': request})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
     def test_get_invalid_single_organization(self):
         response = client.get(
-            reverse('organization_detail', kwargs={'id': 30})
+            reverse('organization-detail', kwargs={'pk': 30})
             )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
