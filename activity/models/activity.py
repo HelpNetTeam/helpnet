@@ -16,7 +16,7 @@ class Activity(models.Model):
     description = models.TextField()
     responsable_id = models.ForeignKey(Profile, related_name='activities', on_delete=models.SET_NULL, null=True)
     organization_id = models.ForeignKey(Organization, related_name='activities', on_delete=models.SET_NULL, null=True)
-    project_id = models.ForeignKey(Project, related_name='activities', on_delete=models.SET_NULL, null=True)
+    project = models.ForeignKey(Project, related_name='activities', on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(null=True)
     address = models.TextField(null=True)
     country_id = models.IntegerField(null=True)

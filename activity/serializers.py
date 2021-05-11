@@ -19,6 +19,10 @@ class ActivitySerializer(serializers.ModelSerializer):
         read_only=True,
         view_name='category-detail'
     )
+    project = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        view_name='project-detail'
+    )
 
     class Meta:
         model = Activity
@@ -43,7 +47,7 @@ class ReviewSerializer(serializers.HyperlinkedModelSerializer):
         model = Review
         fields = '__all__'
 
-class ProjectSerializer(serializers.ModelSerializer):
+class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Project
         fields = '__all__'

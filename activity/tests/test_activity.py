@@ -6,6 +6,7 @@ from rest_framework import status
 from core.models.profile import Profile
 from activity.models.activity import Activity, Comment, Review, ActivityLike
 from activity.models.category import Category
+from activity.models.project import Project
 from activity.serializers import ActivitySerializer, CommentSerializer, ReviewSerializer
 
 client = Client()
@@ -15,6 +16,7 @@ class ActivityTestCase(TestCase):
     def setUp(self):
         self.user = Profile.objects.create(name="User", phone='1234567', email='u@u.com')
         self.category_a = Category.objects.create(name='Category A', description="Long description")
+        self.project_p = Project.objects.create(name='Category P', description="Long description Project")
         self.activity1 = Activity.objects.create(
             name="Activity1",
             #date='2021-12-31 09:00:00', 
@@ -22,6 +24,7 @@ class ActivityTestCase(TestCase):
             longitude=0.0,
             description='This is a long description for the activity #1',
             category=self.category_a,
+            project=self.project_p,
             )
         self.activity2 = Activity.objects.create(
             name="Activity2",
@@ -30,6 +33,7 @@ class ActivityTestCase(TestCase):
             longitude=0.1,
             description='This is a long description for the activity #2',
             category=self.category_a,
+            project=self.project_p,
             )
 
     def test_activity_creation(self):
@@ -141,6 +145,16 @@ class ActivityTestCase(TestCase):
         request = factory.get(activity_reversed_url)
         serializer = ActivitySerializer(self.activity1, context={'request': request})
         self.assertEqual(serializer.data.get('category'), category_reversed_url)
+    
+    def test_project_activity_is_hyperlinked(self):
+        """Activity projects are being properly hyperlinked"""
+        project_reversed_url = 'http://testserver' + reverse('project-detail', kwargs={'pk': self.activity1.project.pk})
+        activity_reversed_url = reverse('activity-detail', kwargs={'pk': self.activity1.pk})
+
+        request = factory.get(activity_reversed_url)
+        serializer = ActivitySerializer(self.activity1, context={'request': request})
+        self.assertEqual(serializer.data.get('project'), project_reversed_url)
+
 
 ## Test Comments
 
