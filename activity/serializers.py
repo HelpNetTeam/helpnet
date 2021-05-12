@@ -27,6 +27,10 @@ class ActivitySerializer(serializers.ModelSerializer):
         read_only=True,
         view_name='organization-detail'
     )
+    responsible = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        view_name='profile-detail'
+    )
 
     class Meta:
         model = Activity

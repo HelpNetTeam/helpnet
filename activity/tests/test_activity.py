@@ -28,6 +28,7 @@ class ActivityTestCase(TestCase):
             category=self.category_a,
             project=self.project_p,
             organization=self.organization_o,
+            responsible=self.user,
             )
         self.activity2 = Activity.objects.create(
             name="Activity2",
@@ -38,6 +39,7 @@ class ActivityTestCase(TestCase):
             category=self.category_a,
             project=self.project_p,
             organization=self.organization_o,
+            responsible=self.user,
             )
 
     def test_activity_creation(self):
@@ -167,6 +169,15 @@ class ActivityTestCase(TestCase):
         request = factory.get(activity_reversed_url)
         serializer = ActivitySerializer(self.activity1, context={'request': request})
         self.assertEqual(serializer.data.get('organization'), organization_reversed_url)
+    
+    def test_responsible_activity_is_hyperlinked(self):
+        """Activity responsibles are being properly hyperlinked"""
+        responsible_reversed_url = 'http://testserver' + reverse('profile-detail', kwargs={'pk': self.activity1.responsible.pk})
+        activity_reversed_url = reverse('activity-detail', kwargs={'pk': self.activity1.pk})
+
+        request = factory.get(activity_reversed_url)
+        serializer = ActivitySerializer(self.activity1, context={'request': request})
+        self.assertEqual(serializer.data.get('responsible'), responsible_reversed_url)
 
 
 ## Test Comments
