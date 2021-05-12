@@ -10,11 +10,6 @@ from .models.need import Need, NeedUom
 class ActivitySerializer(serializers.ModelSerializer):
     likes_count = serializers.IntegerField(read_only=True)
     comments_count = serializers.IntegerField(read_only=True)
-    comments = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='comment-detail'
-    )
     category = serializers.HyperlinkedRelatedField(
         read_only=True,
         view_name='category-detail'
