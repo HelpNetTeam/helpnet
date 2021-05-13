@@ -1,9 +1,11 @@
 from rest_framework import views
+from rest_framework.exceptions import ParseError
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from activity.models.activity import Activity, Comment, Review
+from rest_framework.parsers import FileUploadParser
+from activity.models.activity import Activity, Comment, Review, ActivityImage
 from activity.serializers import (
     ActivitySerializer, CommentSerializer, ReviewSerializer,
     ActivityLikeSerializer)
@@ -183,3 +185,20 @@ class ReviewDetails(APIView):
         review = self.get_object(pk)
         review.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+### Activity Images Views
+
+class ActivityFileUploadView(views.APIView):
+    parser_classes = [FileUploadParser]
+
+    def put(self, request, activity_pk, filename, format=None):
+        if 'file' not in request.data:
+            raise ParseError("Empty content")
+        
+        f = request.data['file']
+
+        activity = Activity.objects.get(pk=activity_pk)
+        activity_image = ActivityImage.objects.create(activity=activity)
+
+        activity_image.image.save(f.name, f, save=True)
+        return Response(status=status.HTTP_201_CREATED)

@@ -107,3 +107,8 @@ class Review(models.Model):
 
     def __str__(self):
         return self.rating
+    
+class ActivityImage(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    image = models.FileField(blank=True)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)

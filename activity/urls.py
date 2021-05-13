@@ -3,7 +3,8 @@ from .views.activitiy_views import (
     ActivityList, ActivityDetails,
     CommentDetails,CommentCreate, CommentActivityList,
     ReviewDetails, ReviewCreate, ReviewActivityList,
-    ActivityLikeCreate, ActivityLikeDetails)
+    ActivityLikeCreate, ActivityLikeDetails,
+    ActivityFileUploadView)
 from .views.project_views import ProjectList, ProjectDetails
 from .views.organization_views import OrganizationList, OrganizationDetails
 from .views.category_views import CategoryList, CategoryDetails
@@ -20,6 +21,7 @@ urlpatterns = [
     path('activity/<int:activity>/review', ReviewActivityList.as_view(), name='review-list'),
     path('activity/review/<int:pk>', ReviewDetails.as_view(), name='review-detail'),
     path('activity/review', ReviewCreate.as_view(), name='review-create'),
+    path('activity/<int:activity_pk>/upload_image/<filename>', ActivityFileUploadView.as_view()),
     path('project', ProjectList.as_view(), name='project_list'),
     path('project/<int:pk>', ProjectDetails.as_view(), name='project-detail'),
     path('organization', OrganizationList.as_view(), name='organization_list'),
